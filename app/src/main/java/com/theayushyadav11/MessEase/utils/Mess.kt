@@ -2,7 +2,6 @@ package com.theayushyadav11.MessEase.utils
 
 import android.app.Dialog
 import android.app.DownloadManager
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -12,8 +11,11 @@ import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.RadioButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
@@ -38,12 +40,12 @@ import kotlinx.coroutines.withContext
 
 class Mess(context: Context) {
     var context: Context
-    private var progressDialog: ProgressDialog = ProgressDialog(context)
+    private var loadingDialog: Dialog? = null
     private var sharedPreferences: SharedPreferences
     val designation = MutableLiveData<String>()
 
     init {
-        progressDialog.setCancelable(false)
+        loadingDialog?.setCancelable(false)
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         this.context = context
     }
@@ -83,13 +85,26 @@ class Mess(context: Context) {
     }
 
     fun addPb(message: String) {
-        progressDialog.dismiss()
-        progressDialog.setMessage(message)
-        progressDialog.show()
+        loadingDialog = Dialog(context).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            val layout = LayoutInflater.from(context).inflate(R.layout.loading, null)
+            val tvMsg = layout.findViewById<TextView>(R.id.msg)
+            tvMsg.text = message
+            setContentView(layout)
+            setCancelable(false)
+
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            window?.setLayout(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
+            show()
+        }
     }
 
     fun pbDismiss() {
-        progressDialog.dismiss()
+        loadingDialog?.setCancelable(true)
+        loadingDialog?.dismiss()
     }
 
     fun toast(message: Any) {

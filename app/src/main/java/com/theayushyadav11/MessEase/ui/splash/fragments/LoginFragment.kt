@@ -114,6 +114,7 @@ class LoginFragment : Fragment() {
             } catch (e: ApiException) {
                 mess.pbDismiss()
                 mess.toast("Google sign in failed: ${e.message}")
+                mess.pbDismiss()
             }
         }
     }
