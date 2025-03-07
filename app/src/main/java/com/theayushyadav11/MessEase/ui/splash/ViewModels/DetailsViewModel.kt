@@ -25,12 +25,14 @@ class DetailsViewModel : ViewModel() {
             passingYear = passingyear,
             photoUrl = auth.currentUser?.photoUrl.toString()
         )
-        firestoreReference.collection(USERS).document(auth.currentUser?.uid.toString()).set(user).addOnCompleteListener {
-            if (it.isSuccessful) {
-                onSuccess()
-            } else {
-                onFailure(it.exception!!)
+        firestoreReference.collection(USERS)
+            .document(auth.currentUser?.uid.toString())
+            .set(user).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    onSuccess()
+                } else {
+                    onFailure(it.exception!!)
+                }
             }
-        }
     }
 }

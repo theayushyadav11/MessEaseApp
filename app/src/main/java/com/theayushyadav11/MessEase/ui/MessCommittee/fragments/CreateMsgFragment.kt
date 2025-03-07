@@ -73,7 +73,9 @@ class CreateMsgFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null &&
+            data.data != null
+        ) {
             val imageUri = data.data
 
             if (noi < 3) {
@@ -159,7 +161,9 @@ class CreateMsgFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         toolbar.navigationIcon?.setTint(Color.WHITE)
         toolbar.setNavigationOnClickListener {
-            if (binding.tvQuestion.text.isNotEmpty() || binding.tvBody.text.isNotEmpty() || listOfImages.isNotEmpty()) {
+            if (binding.tvQuestion.text.isNotEmpty() || binding.tvBody.text.isNotEmpty() ||
+                listOfImages.isNotEmpty()
+            ) {
                 mess.showAlertDialog("Alert!", "Do you want to discard the Message?", "Yes", "No") {
                     findNavController().navigateUp()
                 }
@@ -174,7 +178,9 @@ class CreateMsgFragment : Fragment() {
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    if (binding.tvQuestion.text.isNotEmpty() || binding.tvBody.text.isNotEmpty() || listOfImages.isNotEmpty()) {
+                    if (binding.tvQuestion.text.isNotEmpty() || binding.tvBody.text.isNotEmpty() ||
+                        listOfImages.isNotEmpty()
+                    ) {
                         mess.showAlertDialog(
                             "Alert!",
                             "Do you want to discard the Message?",

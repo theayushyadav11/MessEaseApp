@@ -41,7 +41,8 @@ class UploadMenuAdapter(
     override fun onBindViewHolder(holder: UploadMenuViewHolder, position: Int) {
         val aprMenu = aprMenus[position]
         holder.name.text =
-            "${aprMenu.menu.creator.name}\n${aprMenu.menu.creator.batch}-${aprMenu.menu.creator.passingYear} "
+            "${aprMenu.menu.creator.name}\n${aprMenu.menu.creator.batch}" +
+            "-${aprMenu.menu.creator.passingYear} "
         holder.other.text = aprMenu.note
         holder.time.text = aprMenu.displayDate
         holder.emal.text = aprMenu.menu.creator.email
@@ -143,7 +144,9 @@ class UploadMenuAdapter(
                         sendMail(aprMenu.url)
                         val pn = PushNotifications(
                             context,
-                            "Batch - 2024Batch - 2025Batch - 2026Batch - 2027Batch - 2028Batch - 2029FemaleMale    Btech    Mtech   MBA     Mtech   "
+                            """Batch - 2024Batch - 2025Batch - 2026Batch - 2027Batch - 2028Batch - 2029
+                                |FemaleMale    Btech    Mtech   MBA     Mtech  
+                            """.trimMargin()
                         )
                         pn.sendNotificationToAllUsers(
                             "New Mess Menu has been updated",
@@ -168,7 +171,7 @@ class UploadMenuAdapter(
                 toEmail,
                 "Updated Mess Menu",
                 "Greetings everyone,\n" +
-                    "We are introducing the new mess menu of this month and hope y'all will enjoy it\n" +
+                    "We are introducing the new mess menu of this month and hope y'all \n" +
                     "For your reference the new menu is attached below.\n" +
                     "Mess Committee\n" +
                     "IIIT Lucknow",

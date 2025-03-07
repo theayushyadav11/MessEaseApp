@@ -4,7 +4,12 @@ import android.os.AsyncTask
 import java.net.URL
 import java.util.Properties
 import javax.activation.DataHandler
-import javax.mail.*
+import javax.mail.Authenticator
+import javax.mail.Message
+import javax.mail.MessagingException
+import javax.mail.PasswordAuthentication
+import javax.mail.Session
+import javax.mail.Transport
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeBodyPart
 import javax.mail.internet.MimeMessage
@@ -41,7 +46,7 @@ class MailSender(private val userEmail: String, private val userPassword: String
                 properties,
                 object : Authenticator() {
                     override fun getPasswordAuthentication(): PasswordAuthentication {
-                        return PasswordAuthentication(userEmail, userPassword) // Use your app-specific password
+                        return PasswordAuthentication(userEmail, userPassword)
                     }
                 }
             )

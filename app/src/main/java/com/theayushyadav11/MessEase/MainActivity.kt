@@ -40,7 +40,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.theayushyadav11.MessEase.Models.User
 import com.theayushyadav11.MessEase.databinding.ActivityMainBinding
-import com.theayushyadav11.MessEase.notifications.AlarmReceiver
+import com.theayushyadav11.MessEase.notifications.AlarmReciever
 import com.theayushyadav11.MessEase.ui.MessCommittee.activities.MessCommitteeMain
 import com.theayushyadav11.MessEase.ui.more.PaymentActivity
 import com.theayushyadav11.MessEase.ui.more.ReviewActivity
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         fun cancelAllAlarms(context: Context, index: Int) {
             try {
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                val intent = Intent(context, AlarmReceiver::class.java)
+                val intent = Intent(context, AlarmReciever::class.java)
 
                 val pendingIntent = PendingIntent.getBroadcast(
                     context,
@@ -342,7 +342,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setAlarm() {
         try {
-            val intent = Intent(this@MainActivity, AlarmReceiver::class.java)
+            val intent = Intent(this@MainActivity, AlarmReciever::class.java)
 
             val times = listOf(
                 mess.get("bt", "7:30"),

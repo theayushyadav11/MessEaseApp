@@ -279,21 +279,27 @@ class Mess(context: Context) {
         try {
             val emailR = email.substring(0, email.indexOf("@"))
             var isValid = true
-            if (emailR.contains("+") || emailR.contains(".") || emailR.contains("-") || emailR.contains(
-                    "_"
-                ) || emailR.contains(
+            if (emailR.contains("+") || emailR.contains(".") || emailR.contains("-") ||
+                emailR.contains(
+                        "_"
+                    ) || emailR.contains(
                         "/"
-                    ) || emailR.contains("*") || emailR.contains("#") || emailR.contains("!") || emailR.contains(
+                    ) || emailR.contains("*") || emailR.contains("#") || emailR.contains("!") ||
+                emailR.contains(
                         "$"
                     ) || emailR.contains("%") || emailR.contains("^") || emailR.contains(
                         "&"
-                    ) || emailR.contains("(") || emailR.contains(")") || emailR.contains("=") || emailR.contains(
+                    ) || emailR.contains("(") || emailR.contains(")") || emailR.contains("=") ||
+                emailR.contains(
                         "{"
-                    ) || emailR.contains("}") || emailR.contains("[") || emailR.contains("]") || emailR.contains(
+                    ) || emailR.contains("}") || emailR.contains("[") || emailR.contains("]") ||
+                emailR.contains(
                         ":"
-                    ) || emailR.contains(";") || emailR.contains(",") || emailR.contains("<") || emailR.contains(
+                    ) || emailR.contains(";") || emailR.contains(",") || emailR.contains("<") ||
+                emailR.contains(
                         ">"
-                    ) || emailR.contains("?") || emailR.contains("|") || emailR.contains("`") || emailR.contains(
+                    ) || emailR.contains("?") || emailR.contains("|") || emailR.contains("`") ||
+                emailR.contains(
                         "~"
                     )
             ) {
@@ -337,7 +343,10 @@ class Mess(context: Context) {
 
     fun setUser(user: User) {
         val s =
-            user.uid + "#" + user.name + "#" + user.token + "#" + user.member + "#" + user.photoUrl + "#" + user.email + "#" + user.designation + "#" + user.batch + "#" + user.passingYear + "#" + user.gender + "#"
+            user.uid + "#" + user.name + "#" + user.token + "#" + user.member + "#" +
+                user.photoUrl +
+                "#" + user.email + "#" + user.designation + "#" + user.batch + "#" +
+                user.passingYear + "#" + user.gender + "#"
         save("user", s)
     }
 

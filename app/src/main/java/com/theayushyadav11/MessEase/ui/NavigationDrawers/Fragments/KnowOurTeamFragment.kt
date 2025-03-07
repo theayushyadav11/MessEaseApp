@@ -59,7 +59,9 @@ class KnowOurTeamFragment : Fragment() {
                     v.findViewById<TextView>(R.id.mname).text = user.name
                     v.findViewById<TextView>(R.id.email).text = user.email
                     mess.loadCircularImage(user.photoUrl, v.findViewById(R.id.profilePhoto))
-                    if (mess.getUser().designation == COORDINATOR || mess.getUser().designation == DEVELOPER) {
+                    if (mess.getUser().designation == COORDINATOR ||
+                        mess.getUser().designation == DEVELOPER
+                    ) {
                         v.findViewById<ImageView>(R.id.delete).visibility = View.VISIBLE
                         v.findViewById<ImageView>(R.id.delete).setOnClickListener {
                             mess.showAlertDialog(

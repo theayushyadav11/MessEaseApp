@@ -112,9 +112,10 @@ class SettingsActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this,
-                    "Please choose between ${getFormattedTime("$minHour:$minMinute")} and  ${getFormattedTime(
-                        "$maxHour:$maxMinute"
-                    )}",
+                    "Please choose between ${getFormattedTime("$minHour:$minMinute")} and" +
+                        "  ${getFormattedTime(
+                            "$maxHour:$maxMinute"
+                        )}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

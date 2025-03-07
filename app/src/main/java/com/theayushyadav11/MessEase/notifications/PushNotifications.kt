@@ -11,8 +11,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
@@ -54,9 +55,10 @@ class PushNotifications(private val context: Context, private val target: String
             val names = mutableListOf<String>()
             for (document in value?.documents!!) {
                 val user = document.toObject(User::class.java)!!
-                if (target.contains(user.batch) && target.contains(user.passingYear) && target.contains(
-                        user.gender
-                    )
+                if (target.contains(user.batch) && target.contains(user.passingYear) &&
+                    target.contains(
+                            user.gender
+                        )
                 ) {
                     if (user.token.length > 1) {
                         user.token.let { tokens.add(it) }

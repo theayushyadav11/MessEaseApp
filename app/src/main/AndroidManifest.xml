@@ -79,7 +79,7 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".notifications.AlarmReceiver" />
+        <receiver android:name=".notifications.AlarmReciever" />
 
         <activity
             android:name=".MainActivity"

@@ -60,9 +60,12 @@ class HomeViewModel(val menuDao: MenuDao) : ViewModel() {
                 val polls = mutableListOf<Poll>()
                 value?.forEach {
                     val poll = it.toObject(Poll::class.java)
-                    if (poll.target.contains(user.batch) && poll.target.contains(user.passingYear) && poll.target.contains(
-                            user.gender
-                        )
+                    if (poll.target.contains(user.batch) && poll.target.contains(
+                            user.passingYear
+                        ) &&
+                        poll.target.contains(
+                                user.gender
+                            )
                     ) {
                         polls.add(poll)
                     }

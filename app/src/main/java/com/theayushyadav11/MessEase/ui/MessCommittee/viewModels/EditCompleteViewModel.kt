@@ -49,13 +49,14 @@ class EditCompleteViewModel(private val dao: MenuDao) : ViewModel() {
                     getComp(menu)
 
                 )
-                firestoreReference.collection(MENU_FOR_APPROVAL).document(key).set(aprmenu).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        onSuccess(url)
-                    } else {
-                        onFailure(it.exception!!)
+                firestoreReference.collection(MENU_FOR_APPROVAL).document(key).set(aprmenu)
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            onSuccess(url)
+                        } else {
+                            onFailure(it.exception!!)
+                        }
                     }
-                }
             },
             onFailure = {
                 onFailure(it)
@@ -63,17 +64,18 @@ class EditCompleteViewModel(private val dao: MenuDao) : ViewModel() {
         )
     }
     fun ifSameExists(comp: String, onResult: (Boolean) -> Unit, onError: (String) -> Unit) {
-        firestoreReference.collection(MENU_FOR_APPROVAL).whereEqualTo(COMPARER, comp).get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                if (it.result!!.isEmpty) {
-                    onResult(false)
+        firestoreReference.collection(MENU_FOR_APPROVAL).whereEqualTo(COMPARER, comp).get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    if (it.result!!.isEmpty) {
+                        onResult(false)
+                    } else {
+                        onResult(true)
+                    }
                 } else {
-                    onResult(true)
+                    onError(it.exception!!.message!!)
                 }
-            } else {
-                onError(it.exception!!.message!!)
             }
-        }
     }
     fun getComp(menu: Menu): String {
         var c = ""

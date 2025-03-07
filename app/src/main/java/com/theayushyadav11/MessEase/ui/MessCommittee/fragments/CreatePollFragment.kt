@@ -124,7 +124,9 @@ class CreatePollFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         toolbar.navigationIcon?.setTint(Color.WHITE)
         toolbar.setNavigationOnClickListener {
-            if (binding.tvQuestion.text.isNotEmpty() || binding.opt0.text.isNotEmpty() || binding.opt1.text.isNotEmpty()) {
+            if (binding.tvQuestion.text.isNotEmpty() || binding.opt0.text.isNotEmpty() ||
+                binding.opt1.text.isNotEmpty()
+            ) {
                 mess.showAlertDialog("Alert!", "Do you want to discard the Poll?", "Yes", "No") {
                     findNavController().navigateUp()
                 }
@@ -139,7 +141,9 @@ class CreatePollFragment : Fragment() {
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    if (binding.tvQuestion.text.isNotEmpty() || binding.opt0.text.isNotEmpty() || binding.opt1.text.isNotEmpty()) {
+                    if (binding.tvQuestion.text.isNotEmpty() || binding.opt0.text.isNotEmpty() ||
+                        binding.opt1.text.isNotEmpty()
+                    ) {
                         mess.showAlertDialog(
                             "Alert!",
                             "Do you want to discard the Poll?",

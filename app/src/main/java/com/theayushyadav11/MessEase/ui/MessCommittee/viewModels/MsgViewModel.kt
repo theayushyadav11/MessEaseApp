@@ -29,7 +29,9 @@ class MsgViewModel : ViewModel() {
                 value?.documents?.forEach {
                     val msg = it.toObject(Msg::class.java)
                     if (msg != null) {
-                        if (msg.creater.uid == uid || user.designation == COORDINATOR || user.designation == DEVELOPER) {
+                        if (msg.creater.uid == uid || user.designation == COORDINATOR ||
+                            user.designation == DEVELOPER
+                        ) {
                             msgs.add(msg)
                         }
                     }
