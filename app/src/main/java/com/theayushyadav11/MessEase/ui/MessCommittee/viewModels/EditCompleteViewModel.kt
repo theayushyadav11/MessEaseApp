@@ -13,87 +13,76 @@ import com.theayushyadav11.MessEase.utils.Constants.Companion.databaseReference
 import com.theayushyadav11.MessEase.utils.Constants.Companion.fireBase
 import com.theayushyadav11.MessEase.utils.Constants.Companion.firestoreReference
 import com.theayushyadav11.MessEase.utils.Constants.Companion.menuFileName
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlinx.coroutines.launch
 
 class EditCompleteViewModel(private val dao: MenuDao) : ViewModel() {
 
-
-    fun getEditedMenu(onResult:(Menu)->Unit) {
-        viewModelScope.launch{
+    fun getEditedMenu(onResult: (Menu) -> Unit) {
+        viewModelScope.launch {
             dao.getEditedMenu().let {
                 onResult(it)
             }
         }
     }
-    fun sendToApprove(uri: Uri,note:String,menu:Menu,onSuccess:(String)->Unit,onFailure:(Exception)->Unit){
-       fireBase.uploadFile(uri,"ApprovePdf/$menuFileName${databaseReference.push().key}",
-           onSuccess={ url->
-              val key=  databaseReference.push().key.toString()
-               val aprmenu= AprMenu(
-                   key,
-                   note,
-                   url,
-                   Date(),
-                   menu,
-                   getCurrentTimeAndDate(),
-                   getComp(menu)
+    fun sendToApprove(
+        uri: Uri,
+        note: String,
+        menu: Menu,
+        onSuccess: (String) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        fireBase.uploadFile(
+            uri,
+            "ApprovePdf/$menuFileName${databaseReference.push().key}",
+            onSuccess = { url ->
+                val key = databaseReference.push().key.toString()
+                val aprmenu = AprMenu(
+                    key,
+                    note,
+                    url,
+                    Date(),
+                    menu,
+                    getCurrentTimeAndDate(),
+                    getComp(menu)
 
-               )
-               firestoreReference.collection(MENU_FOR_APPROVAL).document(key).set(aprmenu).addOnCompleteListener{
-                   if(it.isSuccessful)
-                   {
-                          onSuccess(url)
-                   }
-                   else
-                   {
-                          onFailure(it.exception!!)
-                   }
-               }
-           },
-           onFailure = {
-               onFailure(it)
-           }
-           )
+                )
+                firestoreReference.collection(MENU_FOR_APPROVAL).document(key).set(aprmenu).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        onSuccess(url)
+                    } else {
+                        onFailure(it.exception!!)
+                    }
+                }
+            },
+            onFailure = {
+                onFailure(it)
+            }
+        )
     }
-    fun ifSameExists(comp:String,onResult: (Boolean) -> Unit,onError: (String) -> Unit)
-    {
-        firestoreReference.collection(MENU_FOR_APPROVAL).whereEqualTo(COMPARER,comp).get().addOnCompleteListener {
-
-          if(it.isSuccessful)
-          {
-              if(it.result!!.isEmpty)
-              {
-                  onResult(false)
-              }
-              else
-              {
-                  onResult(true)
-              }
-          }
-          else
-          {
-              onError(it.exception!!.message!!)
-          }
-
-
-
-
-
-        }
-    }
- fun getComp(menu: Menu): String {
-        var c=""
-        for(i in menu.menu)
-        {
-            for(j in i.particulars)
-            {
-                c+=j.food
+    fun ifSameExists(comp: String, onResult: (Boolean) -> Unit, onError: (String) -> Unit) {
+        firestoreReference.collection(MENU_FOR_APPROVAL).whereEqualTo(COMPARER, comp).get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                if (it.result!!.isEmpty) {
+                    onResult(false)
+                } else {
+                    onResult(true)
+                }
+            } else {
+                onError(it.exception!!.message!!)
             }
         }
-     Log.d("getComp ",c)
+    }
+    fun getComp(menu: Menu): String {
+        var c = ""
+        for (i in menu.menu) {
+            for (j in i.particulars) {
+                c += j.food
+            }
+        }
+        Log.d("getComp ", c)
         return c
     }
     private fun getCurrentTimeAndDate(): String {

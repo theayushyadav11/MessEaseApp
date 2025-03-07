@@ -29,10 +29,7 @@ class UpdateActivity : AppCompatActivity() {
                     intent.data = Uri.parse(url)
                     startActivity(intent)
                 }
-
             }
-
-
         }
     }
 }

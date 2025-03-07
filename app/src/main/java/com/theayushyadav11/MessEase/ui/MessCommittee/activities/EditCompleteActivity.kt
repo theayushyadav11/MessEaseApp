@@ -77,11 +77,11 @@ class EditCompleteActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.message?.let { mess.toast(it) }
         }
-
     }
 
     private fun sendToApprove() {
-        viewModel.ifSameExists(viewModel.getComp(editedMenu),
+        viewModel.ifSameExists(
+            viewModel.getComp(editedMenu),
             onResult = {
                 if (it) {
                     mess.showAlertDialog(
@@ -90,17 +90,18 @@ class EditCompleteActivity : AppCompatActivity() {
                         "Ok",
                         ""
                     ) {
-
-
                     }
-
 
                     return@ifSameExists
                 } else {
                     mess.addPb("Sending...")
-                    mess.showInputDialog("Add Note...",
+                    mess.showInputDialog(
+                        "Add Note...",
                         onOkClicked = { note ->
-                            viewModel.sendToApprove(uri, note, editedMenu,
+                            viewModel.sendToApprove(
+                                uri,
+                                note,
+                                editedMenu,
                                 onSuccess = {
                                     mess.toast("Sent for Approval")
                                     mess.pbDismiss()
@@ -123,8 +124,6 @@ class EditCompleteActivity : AppCompatActivity() {
                 mess.toast(it)
             }
         )
-
-
     }
 
     fun setUpToolBar() {
@@ -143,5 +142,4 @@ class EditCompleteActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
     }
-
 }

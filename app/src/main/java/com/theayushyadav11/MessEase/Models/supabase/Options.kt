@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Options(
-    val opt_id: String="",
-    val poll_id: String="",
-    val opt_text: String="",
+    val opt_id: String = "",
+    val poll_id: String = "",
+    val opt_text: String = ""
 )

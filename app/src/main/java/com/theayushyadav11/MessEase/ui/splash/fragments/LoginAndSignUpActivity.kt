@@ -15,7 +15,6 @@ class LoginAndSignUpActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityLoginAndSignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
     }
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.host)

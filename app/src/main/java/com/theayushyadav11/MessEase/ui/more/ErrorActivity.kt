@@ -18,11 +18,8 @@ class ErrorActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-       findViewById<Button>(R.id.btnExit).setOnClickListener {
-           finishAffinity()
-       }
-
-
-
+        findViewById<Button>(R.id.btnExit).setOnClickListener {
+            finishAffinity()
+        }
     }
 }

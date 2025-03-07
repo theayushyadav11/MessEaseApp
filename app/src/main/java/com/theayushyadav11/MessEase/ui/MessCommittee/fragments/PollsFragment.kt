@@ -1,28 +1,28 @@
 package com.theayushyadav11.MessEase.ui.MessCommittee.fragments
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.theayushyadav11.MessEase.databinding.FragmentPollsBinding
 import com.theayushyadav11.MessEase.ui.Adapters.PollAdapter
 import com.theayushyadav11.MessEase.ui.MessCommittee.viewModels.PollsViewModel
-import com.theayushyadav11.MessEase.utils.Constants.Companion.auth
 import com.theayushyadav11.MessEase.utils.Mess
 
 class PollsFragment : Fragment() {
 
     private lateinit var binding: FragmentPollsBinding
     private val viewModel: PollsViewModel by viewModels()
-    private lateinit var mess:Mess
+    private lateinit var mess: Mess
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPollsBinding.inflate(inflater, container, false)
@@ -33,20 +33,18 @@ class PollsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initialise()
         setListeners()
-
     }
 
     private fun initialise() {
         mess = Mess(requireContext())
-       setAdapter()
+        setAdapter()
     }
 
     private fun setListeners() {
-
     }
     private fun setAdapter() {
         if (isAdded) {
-            val user=mess.getUser()
+            val user = mess.getUser()
 
             viewModel.getMyPolls(user) { polls ->
                 if (isAdded) {
@@ -66,11 +64,13 @@ class PollsFragment : Fragment() {
 
     fun getmanager(): RecyclerView.LayoutManager {
         val layoutManager = object : LinearLayoutManager(context) {
-            override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
+            override fun onLayoutChildren(
+                recycler: RecyclerView.Recycler?,
+                state: RecyclerView.State?
+            ) {
                 try {
                     super.onLayoutChildren(recycler, state)
                 } catch (e: IndexOutOfBoundsException) {
-
                 }
             }
 

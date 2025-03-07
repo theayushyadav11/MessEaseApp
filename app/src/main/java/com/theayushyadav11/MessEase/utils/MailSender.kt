@@ -9,8 +9,8 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeBodyPart
 import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
-import org.apache.commons.io.IOUtils
 import javax.mail.util.ByteArrayDataSource
+import org.apache.commons.io.IOUtils
 
 class MailSender(private val userEmail: String, private val userPassword: String) {
 
@@ -37,11 +37,14 @@ class MailSender(private val userEmail: String, private val userPassword: String
                 put("mail.smtp.port", "587")
             }
 
-            val session = Session.getInstance(properties, object : Authenticator() {
-                override fun getPasswordAuthentication(): PasswordAuthentication {
-                    return PasswordAuthentication(userEmail, userPassword) // Use your app-specific password
+            val session = Session.getInstance(
+                properties,
+                object : Authenticator() {
+                    override fun getPasswordAuthentication(): PasswordAuthentication {
+                        return PasswordAuthentication(userEmail, userPassword) // Use your app-specific password
+                    }
                 }
-            })
+            )
 
             try {
                 val message = MimeMessage(session).apply {

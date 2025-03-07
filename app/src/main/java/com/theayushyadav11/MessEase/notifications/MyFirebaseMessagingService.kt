@@ -1,6 +1,5 @@
 package com.theayushyadav11.MessEase.notifications
 
-
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -12,7 +11,6 @@ import android.os.Build
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StyleSpan
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -20,23 +18,29 @@ import com.google.firebase.messaging.RemoteMessage
 import com.theayushyadav11.MessEase.MainActivity
 import com.theayushyadav11.MessEase.R
 import com.theayushyadav11.MessEase.utils.Constants.Companion.auth
-import com.theayushyadav11.MessEase.utils.Constants.Companion.databaseReference
 import com.theayushyadav11.MessEase.utils.Constants.Companion.firestoreReference
 
-class MyFirebaseMessagingService: FirebaseMessagingService() {
+class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         sendRegistrationToServer(token)
     }
 
     private fun sendRegistrationToServer(token: String) {
-        firestoreReference.collection("Users").document(auth.currentUser?.uid.toString()).update("token",token)
+        firestoreReference.collection("Users").document(auth.currentUser?.uid.toString()).update(
+            "token",
+            token
+        )
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-                remoteMessage.notification?.let {
-            showNotification(it.title ?: "New Notification", it.body ?: "You have a new notification")
+        remoteMessage.notification?.let {
+            showNotification(
+                it.title ?: "New Notification",
+                it.body ?: "You have a new notification"
+            )
         }
     }
 
@@ -70,14 +74,14 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             .setContentTitle(title)
             .setLargeIcon(largeIcon)
             .setContentText(message)
-            .setStyle(NotificationCompat.BigTextStyle()
-                .bigText(message))
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText(message)
+            )
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
             .setContentIntent(pendingIntent)
         notificationManager.notify(0, builder.build())
     }
-
-
 }

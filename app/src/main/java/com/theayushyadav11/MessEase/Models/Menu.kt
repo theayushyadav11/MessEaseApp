@@ -6,10 +6,9 @@ import androidx.room.PrimaryKey
 @Entity
 data class Menu(
     @PrimaryKey
-    val id: Int=0,
-    val comp:String=" ",
-    val creator:User=User(),
-    val menu:List<DayMenu> = listOf(),
-
+    val id: Int = 0,
+    val comp: String = " ",
+    val creator: User = User(),
+    val menu: List<DayMenu> = listOf()
 
 )

@@ -24,7 +24,7 @@ class CommentAdapter(private val comments: List<Comment>, context: Context, val 
         val name = itemView.findViewById<TextView>(R.id.name)
         val tvcomment = itemView.findViewById<TextView>(R.id.comment)
         val delete = itemView.findViewById<ImageView>(R.id.delete)
-        val email= itemView.findViewById<TextView>(R.id.email)
+        val email = itemView.findViewById<TextView>(R.id.email)
         val dIcon = itemView.findViewById<ImageView>(R.id.dIcon)
     }
 
@@ -40,23 +40,22 @@ class CommentAdapter(private val comments: List<Comment>, context: Context, val 
         holder.time.text = comment.time
         holder.tvcomment.text = comment.comment
         holder.name.text = comment.creator.name
-        holder.email.text=comment.creator.email
+        holder.email.text = comment.creator.email
         if (comment.creator.member) {
             holder.dIcon.setImageResource(fireBase.getIcon(comment.creator.designation))
-        } else holder.dIcon.visibility = View.GONE
-             val it=mess.getUser()
-            if (!ifdelete(comment, it.member)) {
-                holder.delete.visibility = View.INVISIBLE
-            }
+        } else {
+            holder.dIcon.visibility = View.GONE
+        }
+        val it = mess.getUser()
+        if (!ifdelete(comment, it.member)) {
+            holder.delete.visibility = View.INVISIBLE
+        }
 
         holder.delete.setOnClickListener {
             mess.showAlertDialog("Alert!", "Do you want to delete this comment?", "Yes", "No") {
                 deleteComment(position)
             }
-
         }
-
-
     }
 
     fun ifdelete(comment: Comment, isMember: Boolean): Boolean {
@@ -72,10 +71,7 @@ class CommentAdapter(private val comments: List<Comment>, context: Context, val 
             }.addOnFailureListener {
                 mess.toast("Failed to delete comment")
             }
-
-
     }
-
 
     override fun getItemCount() = comments.size
 }

@@ -27,19 +27,15 @@ class KnowOurTeamFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-
         binding = FragmentKnowOurTeamBinding.inflate(inflater, container, false)
 
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initialise()
         listeners()
-
     }
 
     private fun initialise() {
@@ -48,7 +44,6 @@ class KnowOurTeamFragment : Fragment() {
     }
 
     private fun listeners() {
-
     }
 
     fun addCoord() {
@@ -64,7 +59,7 @@ class KnowOurTeamFragment : Fragment() {
                     v.findViewById<TextView>(R.id.mname).text = user.name
                     v.findViewById<TextView>(R.id.email).text = user.email
                     mess.loadCircularImage(user.photoUrl, v.findViewById(R.id.profilePhoto))
-                    if (   mess.getUser().designation == COORDINATOR ||mess.getUser().designation == DEVELOPER) {
+                    if (mess.getUser().designation == COORDINATOR || mess.getUser().designation == DEVELOPER) {
                         v.findViewById<ImageView>(R.id.delete).visibility = View.VISIBLE
                         v.findViewById<ImageView>(R.id.delete).setOnClickListener {
                             mess.showAlertDialog(
@@ -77,10 +72,8 @@ class KnowOurTeamFragment : Fragment() {
                                     mess.toast(it)
                                 }
                             }
-
                         }
                     }
-
 
                     when (user.designation) {
                         COORDINATOR -> binding.coordAdder.addView(v)
@@ -89,14 +82,8 @@ class KnowOurTeamFragment : Fragment() {
                         MEMBER -> binding.memAdder.addView(v)
                         VOLUNTEER -> binding.volAdder.addView(v)
                     }
-
                 }
             }
-
         }
-
-
     }
-
-
 }

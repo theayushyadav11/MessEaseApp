@@ -34,8 +34,6 @@ class SplashScreen : AppCompatActivity() {
         val fadeAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_out)
         imageView.startAnimation(fadeAnimation)
 
-
-
         Handler().postDelayed({
             if (isFirstTime()) {
                 getUpdate {
@@ -43,10 +41,10 @@ class SplashScreen : AppCompatActivity() {
                         navigate()
                     }
                 }
-            } else navigate()
-
+            } else {
+                navigate()
+            }
         }, 1500)
-
     }
 
     fun initialise() {
@@ -67,13 +65,10 @@ class SplashScreen : AppCompatActivity() {
                     mess.setUpdate(version, url)
                     onResult()
                 } else {
-
                     mess.setUpdate("", "")
                     onResult()
                 }
-
             }
-
     }
 
     private fun navigate() {
@@ -82,7 +77,6 @@ class SplashScreen : AppCompatActivity() {
             mess.log(version)
             mess.log(versionName)
             if (version == "") {
-
                 startActivity(Intent(this, ErrorActivity::class.java))
                 finish()
             } else if (version != versionName) {
@@ -90,27 +84,23 @@ class SplashScreen : AppCompatActivity() {
                 mess.log(versionName)
                 startActivity(Intent(this, UpdateActivity::class.java))
                 finish()
-
             } else if (mess.isLoggedIn()) {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                } else {
-                    startActivity(Intent(this, LoginAndSignUpActivity::class.java))
-                    finish()
-                }
-
-
-
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else {
+                startActivity(Intent(this, LoginAndSignUpActivity::class.java))
+                finish()
+            }
         }
-
     }
 
     private fun isFirstTime(): Boolean {
         if (mess.get("firstTime") == "") {
             mess.save("firstTime", "false")
             return true
-        } else return false
-
+        } else {
+            return false
+        }
     }
 
     private fun setMainMenu(onResult: () -> Unit) {
@@ -124,17 +114,15 @@ class SplashScreen : AppCompatActivity() {
                 lifecycleScope.launch(Dispatchers.IO) {
                     val menuDatabase = MenuDatabase.getDatabase(this@SplashScreen).menuDao()
                     val newMenu = Menu(
-                        id = 0, creator = menu.creator, menu = menu.menu
+                        id = 0,
+                        creator = menu.creator,
+                        menu = menu.menu
                     )
                     menuDatabase.addMenu(newMenu)
                     withContext(Dispatchers.Main) {
                         onResult()
                     }
-
                 }
             }
-
     }
-
-
 }

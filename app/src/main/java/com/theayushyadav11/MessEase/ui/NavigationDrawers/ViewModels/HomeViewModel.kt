@@ -25,7 +25,6 @@ import com.theayushyadav11.MessEase.utils.Constants.Companion.SELECTED_OPTION
 import com.theayushyadav11.MessEase.utils.Constants.Companion.UID
 import com.theayushyadav11.MessEase.utils.Constants.Companion.USERS
 import com.theayushyadav11.MessEase.utils.Constants.Companion.auth
-import com.theayushyadav11.MessEase.utils.Constants.Companion.fireBase
 import com.theayushyadav11.MessEase.utils.Constants.Companion.firestoreReference
 import com.theayushyadav11.MessEase.utils.Mess
 import java.time.LocalDate
@@ -48,9 +47,7 @@ class HomeViewModel(val menuDao: MenuDao) : ViewModel() {
         val currentDate = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.ENGLISH)
         value = currentDate.format(formatter).uppercase()
-
     }
-
 
     val menu = MutableLiveData<Menu>()
     fun getDayPolls(user: User, date: String, onSuccess: (List<Poll>) -> Unit) {
@@ -66,8 +63,9 @@ class HomeViewModel(val menuDao: MenuDao) : ViewModel() {
                     if (poll.target.contains(user.batch) && poll.target.contains(user.passingYear) && poll.target.contains(
                             user.gender
                         )
-                    )
+                    ) {
                         polls.add(poll)
+                    }
                 }
                 polls.sortByDescending { it.comp }
                 onSuccess(polls)
@@ -75,7 +73,6 @@ class HomeViewModel(val menuDao: MenuDao) : ViewModel() {
     }
 
     fun getDayParticulars(context: Context, day: Int, onSuccess: (List<Particulars>) -> Unit) {
-
         Mess(context).getMainMenu {
             val list = it.menu[day].particulars
             onSuccess(list)
@@ -88,14 +85,14 @@ class HomeViewModel(val menuDao: MenuDao) : ViewModel() {
     }
 
     fun selectOption(pid: String, optionSelected: OptionSelected) {
-
         firestoreReference.collection(POLL_RESULT).document(pid).collection(USERS).document(uid)
             .set(optionSelected)
     }
 
     fun getVotesOnOption(pid: String, option: String, onResult: (Int) -> Unit) {
         firestoreReference.collection(POLL_RESULT).document(pid).collection(USERS).whereEqualTo(
-            SELECTED_OPTION, option
+            SELECTED_OPTION,
+            option
         ).addSnapshotListener { value, error ->
             if (error != null) {
                 onResult(0)
@@ -109,18 +106,18 @@ class HomeViewModel(val menuDao: MenuDao) : ViewModel() {
     fun getVoteByUid(pid: String, onResult: (String) -> Unit) {
         firestoreReference.collection(POLL_RESULT).document(pid).collection(USERS)
             .whereEqualTo("user.$UID", uid).addSnapshotListener { value, error ->
-            if (error != null) {
-                onResult("")
-                return@addSnapshotListener
+                if (error != null) {
+                    onResult("")
+                    return@addSnapshotListener
+                }
+                try {
+                    val option =
+                        value?.documents?.get(0)?.toObject(OptionSelected::class.java)?.selected
+                    onResult(option!!)
+                } catch (e: Exception) {
+                    onResult("")
+                }
             }
-            try {
-                val option =
-                    value?.documents?.get(0)?.toObject(OptionSelected::class.java)?.selected
-                onResult(option!!)
-            } catch (e: Exception) {
-                onResult("")
-            }
-        }
     }
 
     fun getTotalVotes(pid: String, onResult: (Int) -> Unit) {
@@ -147,12 +144,15 @@ class HomeViewModel(val menuDao: MenuDao) : ViewModel() {
                     val msg = it.toObject(Msg::class.java)
 
                     val check =
-                        msg?.target?.contains(user.batch) == true && msg.target.contains(user.passingYear) && msg.target.contains(
+                        msg?.target?.contains(user.batch) == true && msg.target.contains(
+                            user.passingYear
+                        ) && msg.target.contains(
                             user.gender
                         )
                     if (msg != null) {
-                        if (msg.date == date && check)
+                        if (msg.date == date && check) {
                             msgs.add(msg)
+                        }
                     }
                 }
                 onResult(msgs)
@@ -178,8 +178,6 @@ class HomeViewModel(val menuDao: MenuDao) : ViewModel() {
                 }
             }
             onResult(comments)
-
         }
-
     }
 }

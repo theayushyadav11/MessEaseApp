@@ -1,6 +1,5 @@
 package com.theayushyadav11.MessEase.ui.MessCommittee.viewModels
 
-
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,8 +23,6 @@ class CreateMsgViewModel : ViewModel() {
         onSuccess: () -> Unit,
         onFailure: () -> Unit
     ) {
-
-
         addPhotos(photos) { urls ->
             val id = databaseReference.push().key.toString()
             val msg = Msg(
@@ -45,7 +42,6 @@ class CreateMsgViewModel : ViewModel() {
                 onFailure()
             }
         }
-
     }
 
     private fun addPhotos(photos: List<ByteArray>, onResult: (List<String>) -> Unit) {
@@ -61,8 +57,8 @@ class CreateMsgViewModel : ViewModel() {
                     onResult(urls)
                 }
             }, onFailure = {
-                onResult(emptyList())
-            })
+                    onResult(emptyList())
+                })
         }
     }
 }

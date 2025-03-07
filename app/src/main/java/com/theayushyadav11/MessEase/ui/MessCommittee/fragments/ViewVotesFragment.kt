@@ -24,7 +24,9 @@ class ViewVotesFragment : Fragment() {
     private lateinit var mess: Mess
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentViewVotesBinding.inflate(inflater, container, false)
         return binding.root
@@ -34,11 +36,9 @@ class ViewVotesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initialise()
         setListeners()
-
     }
 
     private fun setListeners() {
-
     }
 
     private fun initialise() {
@@ -46,7 +46,6 @@ class ViewVotesFragment : Fragment() {
         setToolBar()
         mess.addPb("Loading...")
         try {
-
             viewModel.getPoll(mess.getPollId()) {
                 val poll = it
                 binding.tvQuestion.text = it.question
@@ -54,8 +53,6 @@ class ViewVotesFragment : Fragment() {
                 for (option in poll.options) {
                     addOption(poll.id, option)
                 }
-
-
             }
         } catch (e: Exception) {
             mess.pbDismiss()
@@ -101,25 +98,17 @@ class ViewVotesFragment : Fragment() {
                         time.text = os[i].time + " " + os[i].date
                         adder.addView(usr)
                     } catch (e: Exception) {
-
                     }
                     mess.pbDismiss()
                 }
                 mess.pbDismiss()
-
-
             }, onFailure = {
-                mess.pbDismiss()
-            })
-
-
+                    mess.pbDismiss()
+                })
 
             binding.adder.addView(option)
         } catch (e: Exception) {
             mess.pbDismiss()
         }
-
     }
-
-
 }

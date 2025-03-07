@@ -7,7 +7,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.theayushyadav11.MessEase.ui.MessCommittee.fragments.MsgFragment
 import com.theayushyadav11.MessEase.ui.MessCommittee.fragments.PollsFragment
 
-
 class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount() = 2
@@ -17,6 +16,5 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
             0 -> PollsFragment()
             else -> MsgFragment()
         }
-
     }
 }

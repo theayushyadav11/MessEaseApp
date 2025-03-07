@@ -31,7 +31,8 @@ class CreateMsgFragment : Fragment() {
     var noi = 0
     private lateinit var mess: Mess
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateMsgBinding.inflate(inflater, container, false)
@@ -42,7 +43,6 @@ class CreateMsgFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initialise()
         setListeners()
-
     }
 
     private fun initialise() {
@@ -62,8 +62,6 @@ class CreateMsgFragment : Fragment() {
                 mess.snack(binding.btnPost, "Cannot add Empty feilds!")
             }
         }
-
-
     }
 
     private fun openFileChooser() {
@@ -81,8 +79,6 @@ class CreateMsgFragment : Fragment() {
             if (noi < 3) {
                 val view = LayoutInflater.from(context).inflate(R.layout.img, binding.adder, false)
                 val img = view.findViewById<ImageView>(R.id.img)
-
-
 
                 Glide.with(this)
                     .load(imageUri)
@@ -107,14 +103,11 @@ class CreateMsgFragment : Fragment() {
 
                     true
                 }
-                noi++;
-
+                noi++
             }
             if (noi == 3) {
                 binding.addImage.visibility = View.GONE
             }
-
-
         }
     }
 
@@ -125,9 +118,7 @@ class CreateMsgFragment : Fragment() {
                 val byteArray = compressImage(requireContext(), img)
                 listOfImg.add(byteArray)
             }
-
         }
-
 
         mess.openDialog("Msg") { target ->
             mess.addPb("Adding Msg..")
@@ -138,8 +129,9 @@ class CreateMsgFragment : Fragment() {
                 user = mess.getUser(),
                 target = target,
                 onSuccess = {
-                    if (isAdded)
+                    if (isAdded) {
                         findNavController().navigateUp()
+                    }
                     mess.pbDismiss()
                     mess.toast("Msg Added Successfully")
                     if (isAdded) {
@@ -171,8 +163,9 @@ class CreateMsgFragment : Fragment() {
                 mess.showAlertDialog("Alert!", "Do you want to discard the Message?", "Yes", "No") {
                     findNavController().navigateUp()
                 }
-            } else
+            } else {
                 findNavController().navigateUp()
+            }
         }
     }
 
@@ -190,10 +183,11 @@ class CreateMsgFragment : Fragment() {
                         ) {
                             findNavController().navigateUp()
                         }
-                    } else
+                    } else {
                         findNavController().navigateUp()
+                    }
                 }
-            })
+            }
+        )
     }
-
 }

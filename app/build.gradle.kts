@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
     alias(libs.plugins.google.firebase.crashlytics)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.ktlint)
     id("kotlin-kapt")
     kotlin("plugin.serialization") version "1.9.0"
 }
@@ -30,7 +32,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -55,7 +58,15 @@ android {
         exclude("META-INF/LICENSE.txt")
         exclude("META-INF/ASL2.0")
     }
+    detekt {
+        config = files("$rootDir/config/detekt/detekt.yml") // Custom config (optional)
+        buildUponDefaultConfig = true // Use default rules
+    }
 
+    ktlint {
+        android.set(true)
+        ignoreFailures.set(false)
+    }
 }
 
 dependencies {
@@ -83,11 +94,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    //Kotlin Coroutines
+    // Kotlin Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
-    //Room Database
+    // Room Database
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
@@ -108,21 +119,15 @@ dependencies {
 
     implementation(libs.checkout)
 
+    implementation(libs.android.mail)
+    implementation(libs.android.activation)
+    implementation(libs.commons.io)
 
-    implementation (libs.android.mail)
-    implementation (libs.android.activation)
-    implementation (libs.commons.io)
-
-    implementation (libs.anychart.android)
-
-
+    implementation(libs.anychart.android)
 
     implementation(platform("io.github.jan-tennert.supabase:bom:2.0.0-rc-1"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation("io.github.jan-tennert.supabase:realtime-kt")
     implementation("io.ktor:ktor-client-android:2.3.12")
     implementation("phonepe.intentsdk.android.release:IntentSDK:2.4.3")
-
-
-
 }

@@ -7,7 +7,6 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.theayushyadav11.MessEase.Models.Menu
 
-
 @Database(entities = [Menu::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class MenuDatabase : RoomDatabase() {

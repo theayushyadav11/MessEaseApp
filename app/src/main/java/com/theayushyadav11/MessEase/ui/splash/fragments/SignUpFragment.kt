@@ -13,7 +13,6 @@ import com.theayushyadav11.MessEase.R
 import com.theayushyadav11.MessEase.databinding.FragmentSignUpBinding
 import com.theayushyadav11.MessEase.utils.Mess
 
-
 class SignUpFragment : Fragment() {
     private lateinit var binding: FragmentSignUpBinding
     private lateinit var auth: FirebaseAuth
@@ -21,7 +20,8 @@ class SignUpFragment : Fragment() {
     private lateinit var password: String
     private lateinit var mess: Mess
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
@@ -33,8 +33,6 @@ class SignUpFragment : Fragment() {
         initialise()
         animate()
         listeners()
-
-
     }
 
     private fun initialise() {
@@ -63,50 +61,46 @@ class SignUpFragment : Fragment() {
                     }
                 } else {
                     mess.toast("Use only College Email!")
-                }}
-
-
-            }
-            binding.etPassword.setOnClickListener {
-                binding.etPassword.findFocus()
-            }
-            binding.tvSignUp.setOnClickListener {
-                findNavController().navigateUp()
-            }
-        }
-
-        private fun registerUser(email: String, password: String) {
-            mess.addPb("Registering...")
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener() { task ->
-                    if (task.isSuccessful) {
-                        mess.pbDismiss()
-                        sendVerificationEmail()
-
-                    } else {
-                        mess.toast(task.exception?.message!!)
-                        mess.pbDismiss()
-                    }
                 }
+            }
         }
-
-        private fun sendVerificationEmail() {
-            mess.addPb("Sending verification email...")
-            val user = auth.currentUser
-            user?.sendEmailVerification()
-                ?.addOnCompleteListener() { task ->
-                    if (task.isSuccessful) {
-                        mess.pbDismiss()
-                        mess.toast("Verification email sent to ${user.email}")
-                        auth.signOut()
-                        findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
-                    } else {
-                        mess.pbDismiss()
-                        auth.signOut()
-                        mess.toast(task.exception?.message!!)
-
-                    }
-                }
+        binding.etPassword.setOnClickListener {
+            binding.etPassword.findFocus()
         }
-
+        binding.tvSignUp.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
+
+    private fun registerUser(email: String, password: String) {
+        mess.addPb("Registering...")
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener() { task ->
+                if (task.isSuccessful) {
+                    mess.pbDismiss()
+                    sendVerificationEmail()
+                } else {
+                    mess.toast(task.exception?.message!!)
+                    mess.pbDismiss()
+                }
+            }
+    }
+
+    private fun sendVerificationEmail() {
+        mess.addPb("Sending verification email...")
+        val user = auth.currentUser
+        user?.sendEmailVerification()
+            ?.addOnCompleteListener() { task ->
+                if (task.isSuccessful) {
+                    mess.pbDismiss()
+                    mess.toast("Verification email sent to ${user.email}")
+                    auth.signOut()
+                    findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+                } else {
+                    mess.pbDismiss()
+                    auth.signOut()
+                    mess.toast(task.exception?.message!!)
+                }
+            }
+    }
+}

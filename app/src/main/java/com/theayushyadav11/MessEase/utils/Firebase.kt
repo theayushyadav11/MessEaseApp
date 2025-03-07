@@ -68,8 +68,9 @@ class FireBase {
         }.addOnFailureListener { exception ->
             if (exception.message.equals("Object does not exist at location.")) {
                 onSuccess()
-            } else
+            } else {
                 onFailure(exception)
+            }
         }
     }
 
@@ -91,7 +92,6 @@ class FireBase {
                 val token = task.result
                 firestoreReference.collection("Users").document(auth.currentUser?.uid.toString())
                     .update("token", token)
-
             }
         }
     }
@@ -114,11 +114,8 @@ class FireBase {
     }
 
     fun getMainMenu(onResult: (Menu) -> Unit) {
-
-
         firestoreReference.collection("MainMenu").document("menu").addSnapshotListener { value, error ->
-            if(error!=null)
-            {
+            if (error != null) {
                 onResult(Menu())
                 return@addSnapshotListener
             }
@@ -133,10 +130,8 @@ class FireBase {
             if (version != null && url != null) {
                 onResult(version, url)
             } else {
-
                 onResult("", "")
             }
-
         }
             .addOnFailureListener {
                 onResult("", "")
@@ -157,7 +152,6 @@ class FireBase {
                     "theayushyadav11b@gmail.com"
                 )
             }
-
         }
             .addOnFailureListener {
                 onResult(
@@ -168,5 +162,3 @@ class FireBase {
             }
     }
 }
-
-

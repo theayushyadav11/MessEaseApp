@@ -1,5 +1,5 @@
 package com.theayushyadav11.MessEase.Models
 
 data class DayMenu(
-    val particulars:List<Particulars> = listOf()
+    val particulars: List<Particulars> = listOf()
 )

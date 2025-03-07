@@ -24,8 +24,6 @@ import com.theayushyadav11.MessEase.databinding.ActivityMenuBinding
 import com.theayushyadav11.MessEase.databinding.EditDialogBinding
 import com.theayushyadav11.MessEase.ui.MessCommittee.viewModelFactories.EditMenuViewModelFactory
 import com.theayushyadav11.MessEase.ui.MessCommittee.viewModels.EditMenuViewModel
-import com.theayushyadav11.MessEase.utils.Constants.Companion.auth
-import com.theayushyadav11.MessEase.utils.Constants.Companion.fireBase
 import com.theayushyadav11.MessEase.utils.Mess
 import java.io.File
 import java.io.FileOutputStream
@@ -71,9 +69,9 @@ class EditMenuActivity : AppCompatActivity() {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED ||
             ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
                 this,
@@ -95,8 +93,6 @@ class EditMenuActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE) {
-
-
             setupNextButtonListener()
         }
 
@@ -113,7 +109,6 @@ class EditMenuActivity : AppCompatActivity() {
     }
 
     private fun setupNextButtonListener() {
-
         binding.next.setOnClickListener {
             binding.next.isVisible = false
             pdfConversion()
@@ -157,7 +152,6 @@ class EditMenuActivity : AppCompatActivity() {
         val fileName = "Mess Menu.pdf"
         val filePath = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), fileName)
 
-
         try {
             if (filePath.exists()) {
                 filePath.delete()
@@ -174,7 +168,6 @@ class EditMenuActivity : AppCompatActivity() {
         }
     }
 
-
     private fun assign() {
         var l = listOf(
             binding.sube,
@@ -183,9 +176,9 @@ class EditMenuActivity : AppCompatActivity() {
             binding.webe,
             binding.thbe,
             binding.frbe,
-            binding.sabe,
+            binding.sabe
 
-            )
+        )
         texts.add(l.toMutableList())
 
         l = listOf(
@@ -195,9 +188,9 @@ class EditMenuActivity : AppCompatActivity() {
             binding.welu,
             binding.thlu,
             binding.frlu,
-            binding.salu,
+            binding.salu
 
-            )
+        )
         texts.add(l.toMutableList())
 
         l = listOf(
@@ -207,9 +200,9 @@ class EditMenuActivity : AppCompatActivity() {
             binding.wesn,
             binding.thsn,
             binding.frsn,
-            binding.sasn,
+            binding.sasn
 
-            )
+        )
         texts.add(l.toMutableList())
 
         l = listOf(
@@ -219,9 +212,9 @@ class EditMenuActivity : AppCompatActivity() {
             binding.wedi,
             binding.thdi,
             binding.frdi,
-            binding.sadi,
+            binding.sadi
 
-            )
+        )
         texts.add(l.toMutableList())
     }
 
@@ -254,7 +247,6 @@ class EditMenuActivity : AppCompatActivity() {
         }
     }
 
-
     private fun getEditedMenu(onResult: (Menu) -> Unit) {
         var editedMenu: Menu
         val dayMenus: MutableList<DayMenu> = mutableListOf()
@@ -273,29 +265,28 @@ class EditMenuActivity : AppCompatActivity() {
             }
             dayMenus.add(DayMenu(particulars))
         }
-        val  user=mess.getUser()
-            editedMenu = Menu(
-                id = 1,
-                creator = user,
-                menu = dayMenus,
+        val user = mess.getUser()
+        editedMenu = Menu(
+            id = 1,
+            creator = user,
+            menu = dayMenus
 
-
-                )
-            onResult(editedMenu)
-
-
+        )
+        onResult(editedMenu)
     }
 
     override fun onBackPressed() {
-
-        if(isEdited)
-        {
-            mess.showAlertDialog("Alert!","You have unsaved changes,Your data will be gone\nYou want to go back?","Yes","Cancel"){
-
+        if (isEdited) {
+            mess.showAlertDialog(
+                "Alert!",
+                "You have unsaved changes,Your data will be gone\nYou want to go back?",
+                "Yes",
+                "Cancel"
+            ) {
                 finish()
             }
-        }
-        else
+        } else {
             super.onBackPressed()
+        }
     }
 }

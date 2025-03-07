@@ -31,7 +31,6 @@ class UploadMenuAdapter(
     RecyclerView.Adapter<UploadMenuAdapter.UploadMenuViewHolder>() {
     private val mess = Mess(context)
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UploadMenuViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_element, parent, false)
         return UploadMenuViewHolder(view)
@@ -55,7 +54,6 @@ class UploadMenuAdapter(
             ) {
                 uploadMenu(aprMenu)
             }
-
         }
         holder.delete.setOnClickListener {
             mess.showAlertDialog(
@@ -84,7 +82,7 @@ class UploadMenuAdapter(
             }
         }
         holder.edit.setOnClickListener {
-          edit(aprMenu)
+            edit(aprMenu)
         }
     }
 
@@ -113,7 +111,8 @@ class UploadMenuAdapter(
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     if (y) {
-                        fireBase.deletefile(aprMenu.url,
+                        fireBase.deletefile(
+                            aprMenu.url,
                             onSuccess = {
                                 mess.pbDismiss()
                                 mess.toast("Menu deleted successfully")
@@ -121,10 +120,9 @@ class UploadMenuAdapter(
                             onFailure = {
                                 mess.pbDismiss()
                                 mess.toast("Failed to delete menu")
-                            })
-
+                            }
+                        )
                     }
-
                 } else {
                     if (y) {
                         mess.pbDismiss()
@@ -143,34 +141,37 @@ class UploadMenuAdapter(
                         mess.pbDismiss()
                         mess.toast("Menu uploaded successfully")
                         sendMail(aprMenu.url)
-                     val pn= PushNotifications(context, "Batch - 2024Batch - 2025Batch - 2026Batch - 2027Batch - 2028Batch - 2029FemaleMale    Btech    Mtech   MBA     Mtech   ")
-                     pn.sendNotificationToAllUsers("New Mess Menu has been updated", "Go and take a look at the new menu.")
-
+                        val pn = PushNotifications(
+                            context,
+                            "Batch - 2024Batch - 2025Batch - 2026Batch - 2027Batch - 2028Batch - 2029FemaleMale    Btech    Mtech   MBA     Mtech   "
+                        )
+                        pn.sendNotificationToAllUsers(
+                            "New Mess Menu has been updated",
+                            "Go and take a look at the new menu."
+                        )
                     }, onFailure = {
-                        mess.pbDismiss()
-                        mess.toast("Failed to upload menu")
-                    })
+                            mess.pbDismiss()
+                            mess.toast("Failed to upload menu")
+                        })
                 } else {
                     mess.pbDismiss()
                     mess.toast("Failed to upload menu")
                 }
             }
-
     }
 
     fun sendMail(url: String) {
-
         fireBase.getSenderDeatails { email, password, toEmail ->
-            val mailSender = MailSender(email,password)
+            val mailSender = MailSender(email, password)
 
             mailSender.sendEmailWithAttachment(
                 toEmail,
                 "Updated Mess Menu",
                 "Greetings everyone,\n" +
-                        "We are introducing the new mess menu of this month and hope y'all will enjoy it\n" +
-                        "For your reference the new menu is attached below.\n" +
-                        "Mess Committee\n" +
-                        "IIIT Lucknow",
+                    "We are introducing the new mess menu of this month and hope y'all will enjoy it\n" +
+                    "For your reference the new menu is attached below.\n" +
+                    "Mess Committee\n" +
+                    "IIIT Lucknow",
                 url
 
             )
@@ -187,26 +188,25 @@ class UploadMenuAdapter(
 
                 val url2 = value?.getString("url")
                 if (url2 != null) {
-                    fireBase.deletefile(url2,
+                    fireBase.deletefile(
+                        url2,
                         onSuccess = {
                             firestoreReference.collection("MainMenu").document("url")
                                 .set(hashMapOf("url" to aprMenu.url)).addOnCompleteListener {
                                     firestoreReference.collection("MenuForApproval")
                                         .document(aprMenu.key).delete()
 
-
                                     onSuccess()
                                 }
                         },
                         onFailure = {
                             onFailure()
-                        })
+                        }
+                    )
                 }
             }.addOnFailureListener { error ->
                 onFailure()
             }
-
-
     }
 
     inner class UploadMenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -217,7 +217,6 @@ class UploadMenuAdapter(
         val upload: ImageView = itemView.findViewById(R.id.upload)
         val delete: ImageView = itemView.findViewById(R.id.delete)
         val time: TextView = itemView.findViewById(R.id.time)
-        val edit:ImageView = itemView.findViewById(R.id.edit)
+        val edit: ImageView = itemView.findViewById(R.id.edit)
     }
-
 }

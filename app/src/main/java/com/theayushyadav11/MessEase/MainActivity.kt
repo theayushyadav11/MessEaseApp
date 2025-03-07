@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         private const val REQUEST_CODE_SCHEDULE_EXACT_ALARM = 2
         private const val NOTIFICATION_CHANNEL_ID = "DailyNotification"
 
-        fun cancelAllAlarms(context: Context,index:Int) {
+        fun cancelAllAlarms(context: Context, index: Int) {
             try {
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 val intent = Intent(context, AlarmReceiver::class.java)
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                 if (pendingIntent != null) {
                     alarmManager.cancel(pendingIntent)
                     pendingIntent.cancel()
-                Log.d(TAG, "All alarms cancelled")
+                    Log.d(TAG, "All alarms cancelled")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -252,8 +252,12 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_messCommitteeActivity, R.id.nav_admin, R.id.nav_slideshow
-            ), drawerLayout
+                R.id.nav_home,
+                R.id.nav_messCommitteeActivity,
+                R.id.nav_admin,
+                R.id.nav_slideshow
+            ),
+            drawerLayout
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -347,8 +351,10 @@ class MainActivity : AppCompatActivity() {
                 mess.get("dt", "19:0")
             )
 
-            mess.log("Setting alarms: Breakfast ${times[0]}, Lunch ${times[1]}, " +
-                    "Snack ${times[2]}, Dinner ${times[3]}")
+            mess.log(
+                "Setting alarms: Breakfast ${times[0]}, Lunch ${times[1]}, " +
+                    "Snack ${times[2]}, Dinner ${times[3]}"
+            )
 
             for (i in times.indices) {
                 scheduleAlarm(i, times[i], intent)
@@ -399,7 +405,7 @@ class MainActivity : AppCompatActivity() {
                         AlarmManager.INTERVAL_DAY,
                         pendingIntent
                     )
-                    mess.log("Set exact repeating alarm for ${timeString}")
+                    mess.log("Set exact repeating alarm for $timeString")
                 } else {
                     alarmManager.setInexactRepeating(
                         AlarmManager.RTC_WAKEUP,
@@ -407,7 +413,7 @@ class MainActivity : AppCompatActivity() {
                         AlarmManager.INTERVAL_DAY,
                         pendingIntent
                     )
-                    mess.log("Set inexact repeating alarm for ${timeString}")
+                    mess.log("Set inexact repeating alarm for $timeString")
                 }
             } else {
                 alarmManager.setRepeating(
@@ -416,7 +422,7 @@ class MainActivity : AppCompatActivity() {
                     AlarmManager.INTERVAL_DAY,
                     pendingIntent
                 )
-                mess.log("Set repeating alarm for ${timeString}")
+                mess.log("Set repeating alarm for $timeString")
             }
         } catch (e: Exception) {
             mess.log("Error scheduling alarm for $timeString: ${e.message}")
@@ -426,7 +432,8 @@ class MainActivity : AppCompatActivity() {
     private fun askForNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.POST_NOTIFICATIONS
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 ActivityCompat.requestPermissions(
@@ -464,7 +471,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {

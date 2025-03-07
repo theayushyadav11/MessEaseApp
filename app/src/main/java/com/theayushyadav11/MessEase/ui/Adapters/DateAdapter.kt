@@ -1,6 +1,5 @@
 package com.theayushyadav11.MessEase.ui.Adapters
 
-
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -23,8 +22,6 @@ class DateAdapter(
 
     interface Listeners {
         fun ondateSelected(date: DateItem, position: Int, main: DateViewHolder)
-
-
     }
 
     inner class DateViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -57,7 +54,6 @@ class DateAdapter(
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             datOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
 
-
             val dayOfWeek =
                 calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
 
@@ -68,7 +64,6 @@ class DateAdapter(
         holder.day.text = dates[position].dayOfWeek.uppercase()
         holder.dates.text = dates[position].dayOfMonth.toString()
         if (position == selectedPosition) {
-
             holder.main.setBackgroundColor(
                 ContextCompat.getColor(
                     holder.itemView.context,
@@ -90,7 +85,6 @@ class DateAdapter(
                 )
             )
         }
-
 
         holder.itemView.setOnClickListener {
             val previousPosition = selectedPosition

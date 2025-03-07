@@ -1,5 +1,6 @@
 package com.theayushyadav11.MessEase.ui.splash.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -39,7 +40,8 @@ class LoginFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
@@ -53,17 +55,17 @@ class LoginFragment : Fragment() {
         animate()
         listeners()
         onBackPressed()
-
     }
 
+    @SuppressLint("NewApi")
     fun initialise() {
         mess = Mess(requireContext())
+        binding.btnLogin.focusable = View.FOCUSABLE
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
-
     }
 
     fun listeners() {
@@ -84,9 +86,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-
     private fun signIn() {
-
         mess.addPb("Loading...")
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -111,7 +111,6 @@ class LoginFragment : Fragment() {
                         mess.toast("Login with college email id only")
                     }
                 }
-
             } catch (e: ApiException) {
                 mess.pbDismiss()
                 mess.toast("Google sign in failed: ${e.message}")
@@ -132,7 +131,6 @@ class LoginFragment : Fragment() {
             }
     }
 
-
     private fun forgotPassword() {
         val email = binding.etEmail.text.toString().trim()
 
@@ -145,7 +143,6 @@ class LoginFragment : Fragment() {
                             mess.pbDismiss()
                             if (task.isSuccessful) {
                                 mess.toast("Password reset email sent")
-
                             } else {
                                 mess.toast(task.exception?.message.toString())
                             }
@@ -153,7 +150,6 @@ class LoginFragment : Fragment() {
                 } else {
                     mess.toast("Login with college email id only")
                     mess.pbDismiss()
-
                 }
             }
         } else {
@@ -173,7 +169,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun loginUser(email: String, password: String) {
-
         if (email.isNotEmpty() && password.isNotEmpty()) {
             mess.isValidEmail(email) {
                 if (it) {
@@ -201,7 +196,6 @@ class LoginFragment : Fragment() {
                 .show()
             mess.pbDismiss()
         }
-
     }
 
     private fun onBackPressed() {
@@ -211,15 +205,15 @@ class LoginFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-
     }
 
     private fun navigate() {
         viewModel.isPresent { isPresent ->
             if (isPresent) {
                 mess.log("User is present")
-                fireBase.getUser(auth.currentUser?.uid.toString(),
-                    onSuccess = {user ->
+                fireBase.getUser(
+                    auth.currentUser?.uid.toString(),
+                    onSuccess = { user ->
                         mess.log("User from database =$user")
                         mess.setUser(user)
                         mess.log("User set in mess = ${mess.getUser()}")
@@ -229,17 +223,16 @@ class LoginFragment : Fragment() {
                             startActivity(Intent(requireContext(), MainActivity::class.java))
                             requireActivity().finish()
                         }
-
                     },
                     onFailure = {
                         mess.toast(it.message.toString())
                         mess.setUser(User())
-                    })
+                    }
+                )
             } else {
                 mess.pbDismiss()
                 mess.toast("Please complete your profile")
                 findNavController().navigate(R.id.action_loginFragment_to_detailsFragment)
-
             }
         }
     }

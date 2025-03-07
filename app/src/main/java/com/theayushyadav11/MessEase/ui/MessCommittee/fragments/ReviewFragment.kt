@@ -20,7 +20,8 @@ class ReviewFragment : Fragment() {
     private val viewModel: ReviewViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentReviewBinding.inflate(inflater, container, false)
@@ -31,7 +32,6 @@ class ReviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initialise()
         setListeners()
-
     }
 
     private fun initialise() {
@@ -40,7 +40,6 @@ class ReviewFragment : Fragment() {
     }
 
     private fun setListeners() {
-
     }
 
     private fun setToolBar() {
@@ -54,7 +53,6 @@ class ReviewFragment : Fragment() {
         toolbar.setNavigationOnClickListener {
             activity?.onBackPressedDispatcher?.onBackPressed()
         }
-
     }
 
     private fun setAdapter() {
@@ -70,9 +68,7 @@ class ReviewFragment : Fragment() {
                     binding.rv.layoutManager = LinearLayoutManager(requireContext())
                     binding.rv.adapter = adapter
                 }
-
             }
         }
-
     }
 }

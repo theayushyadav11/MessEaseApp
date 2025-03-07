@@ -16,35 +16,35 @@ import com.theayushyadav11.MessEase.utils.Constants.Companion.firestoreReference
 
 class PollsViewModel : ViewModel() {
 
-    fun getMyPolls(user: User,onResult:(List<Poll>)->Unit)
-    {
-        firestoreReference.collection(POLLS).orderBy(COMPARER, DESCENDING_ORDER).addSnapshotListener{
+    fun getMyPolls(user: User, onResult: (List<Poll>) -> Unit) {
+        firestoreReference.collection(POLLS).orderBy(COMPARER, DESCENDING_ORDER).addSnapshotListener {
                 value, error ->
 
-                if (error != null) {
-                    onResult(listOf())
-                    return@addSnapshotListener
-                }
-                val polls = mutableListOf<Poll>()
-                value?.documents?.forEach {
-                    val poll = it.toObject(Poll::class.java)
-                    if (poll != null) {
-                        if (poll.creater.uid == user.uid||user.designation== COORDINATOR||user.designation== DEVELOPER)
-                            polls.add(poll)
-                        Log.d("TAG", "getMyPolls:"+polls.size)
+            if (error != null) {
+                onResult(listOf())
+                return@addSnapshotListener
+            }
+            val polls = mutableListOf<Poll>()
+            value?.documents?.forEach {
+                val poll = it.toObject(Poll::class.java)
+                if (poll != null) {
+                    if (poll.creater.uid == user.uid || user.designation == COORDINATOR || user.designation == DEVELOPER) {
+                        polls.add(poll)
                     }
+                    Log.d("TAG", "getMyPolls:" + polls.size)
                 }
+            }
             Log.d("TAG", polls.toString())
-                onResult(polls)
+            onResult(polls)
         }
     }
-    fun getVotesOnOption(pid:String, option:String,onResult: (Int) -> Unit)
-    {
+    fun getVotesOnOption(pid: String, option: String, onResult: (Int) -> Unit) {
         firestoreReference.collection(POLL_RESULT).document(pid).collection(USERS).whereEqualTo(
-            SELECTED_OPTION,option).addSnapshotListener{
+            SELECTED_OPTION,
+            option
+        ).addSnapshotListener {
                 value, error ->
-            if(error!=null)
-            {
+            if (error != null) {
                 onResult(0)
                 return@addSnapshotListener
             }
@@ -52,5 +52,4 @@ class PollsViewModel : ViewModel() {
             onResult(votes!!)
         }
     }
-
 }

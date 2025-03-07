@@ -27,12 +27,12 @@ import com.theayushyadav11.MessEase.utils.Constants.Companion.authority
 import com.theayushyadav11.MessEase.utils.Constants.Companion.menuFileName
 import com.theayushyadav11.MessEase.utils.Constants.Companion.menuFileType
 import com.theayushyadav11.MessEase.utils.Mess
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class ShowMenuActivity : AppCompatActivity() {
 
@@ -53,7 +53,6 @@ class ShowMenuActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-
         }
 
         askPermissions()
@@ -73,9 +72,6 @@ class ShowMenuActivity : AppCompatActivity() {
             openPDF()
             finish()
 
-
-
-
             mess.pbDismiss()
         }
     }
@@ -89,19 +85,22 @@ class ShowMenuActivity : AppCompatActivity() {
 
     private fun askPermissions() {
         if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.WRITE_EXTERNAL_STORAGE
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                this, Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
-                this, arrayOf(
+                this,
+                arrayOf(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE
-                ), REQUEST_CODE
+                ),
+                REQUEST_CODE
             )
         } else {
-
         }
     }
 
@@ -110,7 +109,9 @@ class ShowMenuActivity : AppCompatActivity() {
         val file = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), fileName)
         if (file.exists()) {
             uri = FileProvider.getUriForFile(
-                this, authority, file
+                this,
+                authority,
+                file
             )
         }
     }
@@ -124,16 +125,16 @@ class ShowMenuActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.message?.let { mess.toast(it) }
         }
-
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE) {
             pdfConversion()
-
         }
 
         isClicked = false
@@ -154,14 +155,18 @@ class ShowMenuActivity : AppCompatActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 this.display?.getRealMetrics(displayMetrics)
             } else {
-                @Suppress("DEPRECATION") this.windowManager.defaultDisplay.getMetrics(displayMetrics)
+                @Suppress("DEPRECATION")
+                this.windowManager.defaultDisplay.getMetrics(displayMetrics)
             }
             horizontalScrollView.measure(
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
             )
             horizontalScrollView.layout(
-                0, 0, horizontalScrollView.measuredWidth, horizontalScrollView.measuredHeight
+                0,
+                0,
+                horizontalScrollView.measuredWidth,
+                horizontalScrollView.measuredHeight
             )
 
             val document = PdfDocument()
@@ -197,8 +202,6 @@ class ShowMenuActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun assign() {
         var l = listOf(
             binding.sube,
@@ -207,9 +210,9 @@ class ShowMenuActivity : AppCompatActivity() {
             binding.webe,
             binding.thbe,
             binding.frbe,
-            binding.sabe,
+            binding.sabe
 
-            )
+        )
         texts.add(l.toMutableList())
 
         l = listOf(
@@ -219,9 +222,9 @@ class ShowMenuActivity : AppCompatActivity() {
             binding.welu,
             binding.thlu,
             binding.frlu,
-            binding.salu,
+            binding.salu
 
-            )
+        )
         texts.add(l.toMutableList())
 
         l = listOf(
@@ -231,9 +234,9 @@ class ShowMenuActivity : AppCompatActivity() {
             binding.wesn,
             binding.thsn,
             binding.frsn,
-            binding.sasn,
+            binding.sasn
 
-            )
+        )
         texts.add(l.toMutableList())
 
         l = listOf(
@@ -243,11 +246,9 @@ class ShowMenuActivity : AppCompatActivity() {
             binding.wedi,
             binding.thdi,
             binding.frdi,
-            binding.sadi,
+            binding.sadi
 
-            )
+        )
         texts.add(l.toMutableList())
     }
-
-
 }

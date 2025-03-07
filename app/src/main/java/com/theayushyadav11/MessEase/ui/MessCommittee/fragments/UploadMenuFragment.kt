@@ -14,13 +14,14 @@ import com.theayushyadav11.MessEase.databinding.FragmentUploadMenuBinding
 import com.theayushyadav11.MessEase.ui.Adapters.UploadMenuAdapter
 import com.theayushyadav11.MessEase.ui.MessCommittee.viewModels.UploadMenuViewModel
 
-class UploadMenuFragment : Fragment(){
+class UploadMenuFragment : Fragment() {
 
     private lateinit var binding: FragmentUploadMenuBinding
     private val viewModel: UploadMenuViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentUploadMenuBinding.inflate(inflater, container, false)
@@ -31,7 +32,6 @@ class UploadMenuFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         initialise()
         setListeners()
-
     }
 
     private fun initialise() {
@@ -40,7 +40,6 @@ class UploadMenuFragment : Fragment(){
     }
 
     private fun setListeners() {
-
     }
 
     private fun setToolBar() {
@@ -57,13 +56,13 @@ class UploadMenuFragment : Fragment(){
     }
 
     fun setAdapter() {
-        viewModel.getAprMenus(onSuccess={ aprMenus->
-            if(isAdded) {
-               if(aprMenus.isEmpty()) {
-                   binding.message.visibility = View.VISIBLE
-                   binding.rv.visibility = View.GONE
-                   return@getAprMenus
-               }
+        viewModel.getAprMenus(onSuccess = { aprMenus ->
+            if (isAdded) {
+                if (aprMenus.isEmpty()) {
+                    binding.message.visibility = View.VISIBLE
+                    binding.rv.visibility = View.GONE
+                    return@getAprMenus
+                }
                 binding.message.visibility = View.GONE
                 binding.rv.visibility = View.VISIBLE
                 var adapter = UploadMenuAdapter(aprMenus, requireContext())
@@ -71,12 +70,10 @@ class UploadMenuFragment : Fragment(){
                     this.adapter = adapter
                     this.layoutManager = LinearLayoutManager(requireContext())
                 }
-
             }
         }, onFailure = {
-            binding.message.visibility = View.VISIBLE
-            binding.message.text ="Something went wrong"
-        })
-
+                binding.message.visibility = View.VISIBLE
+                binding.message.text = "Something went wrong"
+            })
     }
 }

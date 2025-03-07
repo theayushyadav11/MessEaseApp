@@ -21,7 +21,8 @@ class MsgFragment : Fragment() {
     private val viewModel: MsgViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMsgBinding.inflate(inflater, container, false)
@@ -32,7 +33,6 @@ class MsgFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initialise()
         setListeners()
-
     }
 
     private fun initialise() {
@@ -40,7 +40,6 @@ class MsgFragment : Fragment() {
     }
 
     private fun setListeners() {
-
     }
 
     fun setAdapter() {
@@ -54,8 +53,9 @@ class MsgFragment : Fragment() {
                     } else {
                         binding.message.visibility = View.GONE
                         binding.recyclerView.isVisible = true
-                        if (isAdded)
+                        if (isAdded) {
                             binding.recyclerView.adapter = MsgAdapter(msgs, requireContext())
+                        }
                         binding.recyclerView.layoutManager = getmanager()
                     }
                 }
@@ -72,7 +72,6 @@ class MsgFragment : Fragment() {
                 try {
                     super.onLayoutChildren(recycler, state)
                 } catch (e: IndexOutOfBoundsException) {
-
                 }
             }
 

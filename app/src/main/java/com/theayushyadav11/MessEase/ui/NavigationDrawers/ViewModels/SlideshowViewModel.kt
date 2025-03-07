@@ -7,7 +7,6 @@ import com.theayushyadav11.MessEase.utils.Constants.Companion.IS_MEMBER
 import com.theayushyadav11.MessEase.utils.Constants.Companion.USERS
 import com.theayushyadav11.MessEase.utils.Constants.Companion.firestoreReference
 
-
 class SlideshowViewModel : ViewModel() {
 
     fun getCoord(onResult: (List<User>) -> Unit) {
@@ -21,14 +20,15 @@ class SlideshowViewModel : ViewModel() {
                 val list = mutableListOf<User>()
                 for (user in value!!) {
                     val u = user.toObject(User::class.java)
-                    if (u.member)
+                    if (u.member) {
                         list.add(u)
+                    }
                 }
                 onResult(list)
             }
     }
-    fun delete(uid:String,onResult: (String) -> Unit) {
-        val updates= hashMapOf<String,Any>(
+    fun delete(uid: String, onResult: (String) -> Unit) {
+        val updates = hashMapOf<String, Any>(
             DESIGNATION to "",
             IS_MEMBER to false
         )

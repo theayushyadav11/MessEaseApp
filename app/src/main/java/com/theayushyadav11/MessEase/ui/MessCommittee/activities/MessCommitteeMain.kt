@@ -10,13 +10,11 @@ class MessCommitteeMain : AppCompatActivity() {
     private lateinit var binding: ActivityMessCommitteeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityMessCommitteeBinding.inflate(layoutInflater)
+        binding = ActivityMessCommitteeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
     }
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.mc_host)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
 }

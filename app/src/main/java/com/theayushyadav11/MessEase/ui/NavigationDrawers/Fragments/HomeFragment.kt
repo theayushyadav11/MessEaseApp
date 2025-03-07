@@ -1,6 +1,5 @@
 package com.theayushyadav11.MessEase.ui.NavigationDrawers.Fragments
 
-
 import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
@@ -42,13 +41,13 @@ import com.theayushyadav11.MessEase.utils.Constants.Companion.firestoreReference
 import com.theayushyadav11.MessEase.utils.Constants.Companion.getCurrentDate
 import com.theayushyadav11.MessEase.utils.Constants.Companion.getCurrentTimeInAmPm
 import com.theayushyadav11.MessEase.utils.Mess
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class HomeFragment : Fragment(), DateAdapter.Listeners {
     private lateinit var binding: FragmentHomeBinding
@@ -59,7 +58,9 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -77,7 +78,7 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
         updateUI()
     }
 
-    //Initialising all the variables etc...
+    // Initialising all the variables etc...
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initialise() {
         mess = Mess(requireContext())
@@ -88,7 +89,7 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
         }
     }
 
-    //Listeners for the onClicks
+    // Listeners for the onClicks
     private fun listeners() {
         binding.imageView2.setOnClickListener {
             scrollToPosition(1)
@@ -98,28 +99,23 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
         }
     }
 
-    //Setting the Adapters
+    // Setting the Adapters
     private fun setDateAdapter() {
-
-
         val rv = binding.rv
         val adapter = DateAdapter(this)
         rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         rv.adapter = adapter
-
-
     }
 
-    //Handle the date selection
+    // Handle the date selection
     override fun ondateSelected(date: DateItem, position: Int, main: DateAdapter.DateViewHolder) {
         homeViewModel.day.value = position + 1
         homeViewModel.dayOfWeek.value = date.weekday
         binding.rv.smoothScrollToPosition(position + 3)
-
     }
 
-    //Handle the scroll of the recycler view
+    // Handle the scroll of the recycler view
     fun onRvScroll() {
         val layoutManager = binding.rv.layoutManager as LinearLayoutManager
         binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -128,7 +124,6 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
 
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
-
 
                 if (firstVisibleItemPosition > 6) {
                     binding.imageView2.visibility = View.VISIBLE
@@ -140,7 +135,7 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
         })
     }
 
-    //Scroll to the position in date
+    // Scroll to the position in date
     private fun scrollToPosition(direction: Int) {
         val layoutManager = binding.rv.layoutManager as LinearLayoutManager
         val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
@@ -150,7 +145,6 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
             if (firstVisibleItemPosition > 4) {
                 binding.imageView2.visibility = View.VISIBLE
                 binding.rv.smoothScrollToPosition(firstVisibleItemPosition - 4)
-
             } else {
                 binding.rv.smoothScrollToPosition(0)
                 binding.imageView.visibility = View.INVISIBLE
@@ -178,47 +172,51 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
                     if (snapshot != null && snapshot.exists()) {
                         val menu = snapshot.toObject(Menu::class.java)
 
-                            GlobalScope.launch(Dispatchers.IO) {
-                                val menuDatabase = MenuDatabase.getDatabase(requireActivity()).menuDao()
-                                if (menu != null) {
-                                    val newMenu = Menu(
-                                        id = 0, creator = menu.creator, menu = menu.menu
-                                    )
-                                    menuDatabase.addMenu(newMenu)
-                                }
+                        GlobalScope.launch(Dispatchers.IO) {
+                            val menuDatabase = MenuDatabase.getDatabase(requireActivity()).menuDao()
+                            if (menu != null) {
+                                val newMenu = Menu(
+                                    id = 0,
+                                    creator = menu.creator,
+                                    menu = menu.menu
+                                )
+                                menuDatabase.addMenu(newMenu)
                             }
+                        }
                     } else {
                         mess.toast("Menu document does not exist.")
                     }
                 }
         }
-
     }
 
     fun updateUI() {
-        homeViewModel.day.observe(requireActivity(), Observer {
-            //Adding menu
-            addFood()
-            //Adding poll
-            addPolls(it)
-            //Adding Msgs
-            addMsgs(it)
-
-
-        })
+        homeViewModel.day.observe(
+            requireActivity(),
+            Observer {
+                // Adding menu
+                addFood()
+                // Adding poll
+                addPolls(it)
+                // Adding Msgs
+                addMsgs(it)
+            }
+        )
     }
 
     fun setAdapters() {
         if (isAdded) {
-            homeViewModel.day.observe(requireActivity(), Observer {
-                val user = mess.getUser()
-                if (isAdded) {
-                    homeViewModel.getDayMsgs(user, getDate(it)) { msgs ->
-                        setMsgAdapter(msgs)
+            homeViewModel.day.observe(
+                requireActivity(),
+                Observer {
+                    val user = mess.getUser()
+                    if (isAdded) {
+                        homeViewModel.getDayMsgs(user, getDate(it)) { msgs ->
+                            setMsgAdapter(msgs)
+                        }
                     }
                 }
-
-            })
+            )
         }
     }
 
@@ -228,23 +226,18 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
             binding.rvMsg.layoutManager = mess.getmanager()
             binding.rvMsg.adapter = adapter
         }
-
     }
 
-
     private fun addMsgs(day: Int) {
-           val user = mess.getUser()
-            homeViewModel.getDayMsgs(user, getDate(day)) { msgs ->
-                binding.msgAdder.removeAllViews()
-                if (msgs.isNotEmpty()) {
-                    msgs.forEach {
-                        addMsg(it)
-                    }
+        val user = mess.getUser()
+        homeViewModel.getDayMsgs(user, getDate(day)) { msgs ->
+            binding.msgAdder.removeAllViews()
+            if (msgs.isNotEmpty()) {
+                msgs.forEach {
+                    addMsg(it)
                 }
             }
-
-
-
+        }
     }
 
     private fun addMsg(msg: Msg) {
@@ -276,41 +269,44 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
         }
     }
 
-
     private fun addFood() {
-        homeViewModel.dayOfWeek.observe(requireActivity(), Observer { day ->
+        homeViewModel.dayOfWeek.observe(
+            requireActivity(),
+            Observer { day ->
 
-            homeViewModel.getDayParticulars(requireContext(),day) { particulars ->
-                if (isAdded) {
-                    binding.menuAdder.removeAllViews()
-                    if (particulars.isNotEmpty()) {
-                        particulars.forEach {
-                            val menuLayout = LayoutInflater.from(requireActivity()).inflate(
-                                R.layout.particulars_element_layout, binding.menuAdder, false
-                            )
-                            menuLayout.findViewById<TextView>(R.id.foodType).text = it.type
-                            menuLayout.findViewById<TextView>(R.id.foodMenu).text = it.food
-                            menuLayout.findViewById<TextView>(R.id.foodTimeing).text = it.time
-                            binding.menuAdder.addView(menuLayout)
+                homeViewModel.getDayParticulars(requireContext(), day) { particulars ->
+                    if (isAdded) {
+                        binding.menuAdder.removeAllViews()
+                        if (particulars.isNotEmpty()) {
+                            particulars.forEach {
+                                val menuLayout = LayoutInflater.from(requireActivity()).inflate(
+                                    R.layout.particulars_element_layout,
+                                    binding.menuAdder,
+                                    false
+                                )
+                                menuLayout.findViewById<TextView>(R.id.foodType).text = it.type
+                                menuLayout.findViewById<TextView>(R.id.foodMenu).text = it.food
+                                menuLayout.findViewById<TextView>(R.id.foodTimeing).text = it.time
+                                binding.menuAdder.addView(menuLayout)
+                            }
                         }
                     }
                 }
             }
-
-        })
+        )
     }
 
     private fun addPolls(day: Int) {
         val user = mess.getUser()
-            homeViewModel.getDayPolls(user, getDate(day)) { polls ->
+        homeViewModel.getDayPolls(user, getDate(day)) { polls ->
+            binding.pollAdder.removeAllViews()
+            if (polls.isNotEmpty()) {
                 binding.pollAdder.removeAllViews()
-                if (polls.isNotEmpty()) {
-                    binding.pollAdder.removeAllViews()
-                    polls.forEach {
-                        addPoll(it)
-                    }
+                polls.forEach {
+                    addPoll(it)
                 }
             }
+        }
     }
 
     private fun addPoll(poll: Poll) {
@@ -328,7 +324,6 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
             addOptions(poll, pollLayout.findViewById(R.id.radioGroup))
             binding.pollAdder.addView(pollLayout)
         }
-
     }
 
     private fun addOptions(poll: Poll, adder: LinearLayout) {
@@ -344,10 +339,8 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
             homeViewModel.getTotalVotes(poll.id) { nov ->
 
                 homeViewModel.getVotesOnOption(poll.id, option) {
-
                     val v = if (nov == 0) 0 else (it * 100) / nov
                     pb.progress = v
-
 
                     optionVotes.text = it.toString()
                 }
@@ -361,7 +354,6 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
             }
 
             optionLayout.setOnClickListener {
-
                 onOptionClicked(poll.id, listOfRb, poll.options.indexOf(option), poll.options)
             }
 
@@ -383,24 +375,21 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
             if (i == currentIndex) {
                 listOfRb[i].isChecked = true
                 optionSelect(pid, options[i])
-
             } else {
                 listOfRb[i].isChecked = false
-
             }
         }
     }
 
     private fun optionSelect(pid: String, option: String) {
-
-     val user=mess.getUser()
-            val optionSelected = OptionSelected(
-                user = user, selected = option, time = getCurrentTimeInAmPm(), date = getCurrentDate()
-            )
-            homeViewModel.selectOption(pid, optionSelected)
-
-
-
+        val user = mess.getUser()
+        val optionSelected = OptionSelected(
+            user = user,
+            selected = option,
+            time = getCurrentTimeInAmPm(),
+            date = getCurrentDate()
+        )
+        homeViewModel.selectOption(pid, optionSelected)
     }
 
     fun updateDetails() {
@@ -413,10 +402,9 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
             .set(detailMap, SetOptions.merge())
     }
 
-
     fun getDate(day: Int): String {
         val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("${day}/MM/yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("$day/MM/yyyy", Locale.getDefault())
         return dateFormat.format(calendar.time)
     }
 
@@ -429,11 +417,13 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
         dismiss?.setOnClickListener {
             bottomSheetDialog.dismiss()
         }
-        val user=mess.getUser()
-            if (isAdded)
-                mess.loadCircularImage(
-                    user.photoUrl, bottomSheetDialog.findViewById<ImageView>(R.id.profileIcon)!!
-                )
+        val user = mess.getUser()
+        if (isAdded) {
+            mess.loadCircularImage(
+                user.photoUrl,
+                bottomSheetDialog.findViewById<ImageView>(R.id.profileIcon)!!
+            )
+        }
 
         val rv = bottomSheetDialog.findViewById<RecyclerView>(R.id.rv)
         val message = bottomSheetDialog.findViewById<TextView>(R.id.message)!!
@@ -447,8 +437,6 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
             if (commentText != null) {
                 addComment(commentText, msg)
             }
-
-
         }
         bottomSheetDialog.show()
     }
@@ -458,31 +446,26 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
         if (commentText.isNotEmpty()) {
             val key = databaseReference.push().key.toString()
 
-            val user=mess.getUser()
+            val user = mess.getUser()
 
-                val comment = Comment(
-                    id = key,
-                    comment = commentText,
-                    time = getCurrentTimeInAmPm(),
-                    date = getCurrentDate(),
-                    creator = user,
-                )
+            val comment = Comment(
+                id = key,
+                comment = commentText,
+                time = getCurrentTimeInAmPm(),
+                date = getCurrentDate(),
+                creator = user
+            )
 
-                firestoreReference.collection("Msgs").document(msg.uid).collection("Comments")
-                    .document(key).set(comment).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            mess.toast("Comment added")
-                            editText.text = null
-
-
-                        } else {
-                            mess.toast(it.exception?.message.toString())
-                        }
+            firestoreReference.collection("Msgs").document(msg.uid).collection("Comments")
+                .document(key).set(comment).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        mess.toast("Comment added")
+                        editText.text = null
+                    } else {
+                        mess.toast(it.exception?.message.toString())
                     }
-
-
+                }
         }
-
     }
 
     private fun setAdapter(msg: Msg, rv: RecyclerView, m: TextView) {
@@ -499,9 +482,7 @@ class HomeFragment : Fragment(), DateAdapter.Listeners {
                     val adapter = CommentAdapter(comments, requireContext(), msg.uid)
                     rv.adapter = adapter
                 }
-
             }
         }
     }
 }
-

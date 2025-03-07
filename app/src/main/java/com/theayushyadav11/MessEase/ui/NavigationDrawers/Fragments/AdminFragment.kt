@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.theayushyadav11.MessEase.R
 import com.theayushyadav11.MessEase.databinding.FragmentAdminBinding
 import com.theayushyadav11.MessEase.ui.NavigationDrawers.ViewModels.AdminViewModel
@@ -22,7 +21,9 @@ class AdminFragment : Fragment() {
     private val viewModel: AdminViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentAdminBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -35,30 +36,27 @@ class AdminFragment : Fragment() {
     }
 
     private fun listeners() {
-        binding.btnAdd.setOnClickListener{
+        binding.btnAdd.setOnClickListener {
             add()
         }
     }
 
     private fun initialise() {
-        mess=Mess(requireContext())
+        mess = Mess(requireContext())
         setAdapter()
     }
 
-
-    fun add()
-    {
-        if(binding.etEmail.text.toString().isNotEmpty())
-        {
+    fun add() {
+        if (binding.etEmail.text.toString().isNotEmpty()) {
             mess.addPb("Adding to Mess Committee")
-            viewModel.addToMessCommittee(binding.etEmail.text.toString(),binding.spinner.selectedItem.toString())
-            {
+            viewModel.addToMessCommittee(
+                binding.etEmail.text.toString(),
+                binding.spinner.selectedItem.toString()
+            ) {
                 mess.pbDismiss()
                 mess.toast(it)
             }
-        }
-        else
-        {
+        } else {
             mess.toast("Please enter email")
         }
     }

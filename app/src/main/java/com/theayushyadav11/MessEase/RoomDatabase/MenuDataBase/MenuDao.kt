@@ -21,6 +21,5 @@ interface MenuDao {
     fun getShowMenu(): Menu
 
     @Query("SELECT *FROM menu Where id =:id")
-    fun getMenuFromId(id:Int): Menu
-
+    fun getMenuFromId(id: Int): Menu
 }

@@ -6,7 +6,6 @@ class OptionSelected(
     val selected: String = "",
     val time: String = "",
     val date: String = "",
-    val user:User=User(),
+    val user: User = User(),
     val comp: Date = Date()
 )
-

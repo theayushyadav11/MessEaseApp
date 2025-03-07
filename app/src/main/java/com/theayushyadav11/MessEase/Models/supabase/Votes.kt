@@ -4,9 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Votes(
-    val id: String="",
-    val poll_id: String="",
-    val uid: String="",
-    val opt_id: String="",
-    val voted_at: String="",
+    val id: String = "",
+    val poll_id: String = "",
+    val uid: String = "",
+    val opt_id: String = "",
+    val voted_at: String = ""
 )

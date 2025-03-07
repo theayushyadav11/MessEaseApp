@@ -5,11 +5,9 @@ import com.theayushyadav11.MessEase.utils.Constants.Companion.DESIGNATION
 import com.theayushyadav11.MessEase.utils.Constants.Companion.EMAIL
 import com.theayushyadav11.MessEase.utils.Constants.Companion.IS_MEMBER
 import com.theayushyadav11.MessEase.utils.Constants.Companion.USERS
-import com.theayushyadav11.MessEase.utils.Constants.Companion.databaseReference
 import com.theayushyadav11.MessEase.utils.Constants.Companion.firestoreReference
 
 class AdminViewModel : ViewModel() {
-
 
     fun addToMessCommittee(email: String, designation: String, onResult: (String) -> Unit) {
         firestoreReference.collection(USERS).whereEqualTo(EMAIL, email).get().addOnSuccessListener {
