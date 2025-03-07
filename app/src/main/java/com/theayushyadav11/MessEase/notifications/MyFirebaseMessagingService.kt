@@ -3,7 +3,6 @@ package com.theayushyadav11.MessEase.notifications
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Typeface
@@ -47,7 +46,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     @RequiresApi(Build.VERSION_CODES.O)
 
     private fun showNotification(t: String, message: String) {
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         val title = SpannableString(t)
         title.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
