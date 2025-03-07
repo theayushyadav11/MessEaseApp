@@ -57,6 +57,7 @@ class KnowOurTeamFragment : Fragment() {
                     val v = LayoutInflater.from(requireContext()).inflate(R.layout.person, null)
                     v.findViewById<TextView>(R.id.mname).text = user.name
                     v.findViewById<TextView>(R.id.email).text = user.email
+
                     mess.loadCircleImage(user.photoUrl, v.findViewById(R.id.profilePhoto))
                     val user = mess.getUser()
                     if (user.designation == COORDINATOR || user.designation == DEVELOPER) {
