@@ -62,7 +62,11 @@ MessEase is an Android application designed to streamline and simplify the mess-
 
 ### Demo Video
 
-https://github.com/user-attachments/assets/02c9048d-0d8a-4c44-aea7-d3542ae30826
+
+
+https://github.com/user-attachments/assets/dbeb8f47-b31a-4d77-a479-3870f9528269
+
+
 
 ### **Future Scope**
 MessEase is designed with scalability in mind. While currently tailored for IIIT Lucknow, it can be adapted for use by other institutions as well.
